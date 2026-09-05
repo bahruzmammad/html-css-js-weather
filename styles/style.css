@@ -18,7 +18,8 @@ body {
 }
 
 .weather-app {
-  width: min(100%, 420px);
+  width: 100%;
+  max-width: 420px;
   padding: 32px;
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -33,7 +34,7 @@ body {
 h1 {
   margin-bottom: 28px;
   text-align: center;
-  font-size: 32px;
+  font-size: clamp(26px, 6vw, 32px);
   font-weight: 600;
   letter-spacing: -0.8px;
 }
@@ -46,6 +47,7 @@ h1 {
 
 .search input {
   min-width: 0;
+  width: 100%;
   flex: 1;
   padding: 13px 16px;
   border: 1px solid #d2d2d7;
@@ -69,6 +71,7 @@ h1 {
 }
 
 .search button {
+  flex-shrink: 0;
   padding: 13px 18px;
   border: none;
   border-radius: 14px;
@@ -100,14 +103,14 @@ h1 {
 
 .weather-card h2 {
   margin-bottom: 10px;
-  font-size: 24px;
+  font-size: clamp(20px, 5vw, 24px);
   font-weight: 600;
   letter-spacing: -0.4px;
 }
 
 #temperature {
   margin-bottom: 6px;
-  font-size: 56px;
+  font-size: clamp(46px, 12vw, 56px);
   line-height: 1;
   font-weight: 600;
   letter-spacing: -2px;
@@ -141,6 +144,7 @@ h1 {
 @media (max-width: 600px) {
   body {
     padding: 16px;
+    align-items: center;
   }
 
   .weather-app {
@@ -150,7 +154,6 @@ h1 {
 
   h1 {
     margin-bottom: 24px;
-    font-size: 28px;
   }
 
   .search {
@@ -165,10 +168,6 @@ h1 {
     padding: 24px 18px;
   }
 
-  #temperature {
-    font-size: 50px;
-  }
-
   .weather-info {
     flex-direction: column;
     gap: 12px;
@@ -176,15 +175,47 @@ h1 {
 }
 
 @media (max-width: 380px) {
+  body {
+    padding: 10px;
+  }
+
   .weather-app {
     padding: 20px;
+    border-radius: 18px;
   }
 
   h1 {
-    font-size: 26px;
+    margin-bottom: 20px;
   }
 
-  #temperature {
-    font-size: 46px;
+  .search {
+    margin-bottom: 20px;
+  }
+
+  .weather-card {
+    padding: 20px 16px;
+  }
+
+  #condition {
+    margin-bottom: 22px;
+  }
+
+  .weather-info {
+    padding-top: 16px;
+  }
+}
+
+@media (hover: none) {
+  .search button:hover {
+    background: #0071e3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
   }
 }
