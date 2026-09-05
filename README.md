@@ -45,7 +45,3 @@ git clone https://github.com/bahruzmammad/html-css-js-weather.git
 ```
 
 Open the project folder and run `index.html` in your browser.
-
-## License
-
-This project is open source and available under the MIT License.
