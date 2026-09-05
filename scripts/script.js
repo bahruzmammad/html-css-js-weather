@@ -1,5 +1,6 @@
 const searchForm = document.querySelector(".search");
 const cityInput = document.querySelector("#cityInput");
+const inputError = document.querySelector("#inputError");
 const cityElement = document.querySelector("#city");
 const temperatureElement = document.querySelector("#temperature");
 const conditionElement = document.querySelector("#condition");
@@ -7,20 +8,33 @@ const humidityElement = document.querySelector("#humidity");
 const windElement = document.querySelector("#wind");
 const weatherCard = document.querySelector(".weather-card");
 
-weatherCard.style.display = "none";
-
-searchForm.addEventListener("submit", function (event) {
+searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
+
   const city = cityInput.value.trim();
 
-  if (city === "") {
-    alert("Please enter a city.");
+  clearError();
+
+  if (!city) {
+    showError("Please enter a city.");
     return;
   }
 
   getWeather(city);
-  cityInput.value = "";
 });
+
+cityInput.addEventListener("input", clearError);
+
+function showError(message) {
+  inputError.textContent = message;
+  cityInput.classList.add("input-error-border");
+  weatherCard.style.display = "none";
+}
+
+function clearError() {
+  inputError.textContent = "";
+  cityInput.classList.remove("input-error-border");
+}
 
 async function getWeather(city) {
   try {
@@ -36,8 +50,9 @@ async function getWeather(city) {
 
     const locationData = await locationResponse.json();
 
-    if (!locationData.results || locationData.results.length === 0) {
-      throw new Error("City not found.");
+    if (!locationData.results?.length) {
+      showError("City not found.");
+      return;
     }
 
     const location = locationData.results[0];
@@ -51,11 +66,12 @@ async function getWeather(city) {
     }
 
     const weatherData = await weatherResponse.json();
+
     displayWeather(location, weatherData);
+    cityInput.value = "";
   } catch (error) {
     console.error(error);
-    weatherCard.style.display = "none";
-    alert(error.message);
+    showError("Something went wrong. Please try again.");
   }
 }
 
